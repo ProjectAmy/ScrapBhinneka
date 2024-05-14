@@ -96,3 +96,7 @@ FEED_EXPORT_ENCODING = "utf-8"
 ITEM_PIPELINES = {
     "bhinneka.pipelines.TerlarisPipeline" : 300,
 }
+
+ITEM_PIPELINES = {
+    "bhinneka.pipelines.PerkakasPipeline" : 300,
+}

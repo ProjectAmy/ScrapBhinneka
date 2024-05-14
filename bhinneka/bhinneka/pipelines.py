@@ -31,9 +31,9 @@ class TerlarisPipeline:
 
         try:
             self.cur.execute(
-                """CREATE TABLE IF NOT EXIST terlaris (
+                """CREATE TABLE IF NOT EXISTS terlaris (
                     nama TEXT,
-                    harga INT,
+                    harga TEXT,
                     cicilan TEXT,
                     link TEXT
                     )"""
@@ -41,18 +41,18 @@ class TerlarisPipeline:
         except mysql.connector.Error as err:
             raise NotConfigured(f"Error creating table : {err}")
 
-    def process_item(self, item, spider):
+    def process_item(self, item, spider): # default method
         try:
             self.store_db(item)
             print("pipline : " + item['nama'])
-        except mysql.connector.Error as err
+        except mysql.connector.Error as err:
             spider.log(f"Error storing item in database : {err}")
         return item
 
-    def store_db(self):
+    def store_db(self, item): # harus 2 argument
         self.cur.execute(
             """INSERT INTO terlaris (nama, harga, cicilan, link)
-                VALUES (%S, %S, %S, %S)
+                VALUES (%s, %s, %s, %s)
             """, (item['nama'], item['harga'], item['cicilan'], item['link'])
         )
         self.con.commit()
@@ -60,5 +60,59 @@ class TerlarisPipeline:
     def close_spider(self):
         try:
             self.con.close()
-        except mysql.connector.Error as err
+        except mysql.connector.Error as err:
+            spider.log(f'Error closing database connection : {err}')
+
+class PerkakasPipeline:
+
+    def __init__(self):
+        self.create_connection()
+        self.create_table()
+
+    def create_connection(self):
+        try:
+            self.con = mysql.connector.connect(
+                host='localhost',
+                user='root',
+                password='',
+                db='bhinneka'
+            )
+            self.cur = self.con.cursor()
+        except mysql.connector.Error as err:
+            raise NotConfigured(f"Error connecting to MySql : {err}")
+
+    def create_table(self):
+
+        try:
+            self.cur.execute(
+                """CREATE TABLE IF NOT EXISTS perkakas (
+                    nama TEXT,
+                    harga TEXT,
+                    cicilan TEXT,
+                    link TEXT
+                    )"""
+            )
+        except mysql.connector.Error as err:
+            raise NotConfigured(f"Error creating table : {err}")
+
+    def process_item(self, item, spider): # default method
+        try:
+            self.store_db(item)
+            print("pipline : " + item['nama'])
+        except mysql.connector.Error as err:
+            spider.log(f"Error storing item in database : {err}")
+        return item
+
+    def store_db(self, item): # harus 2 argument
+        self.cur.execute(
+            """INSERT INTO perkakas (nama, harga, cicilan, link)
+                VALUES (%s, %s, %s, %s)
+            """, (item['nama'], item['harga'], item['cicilan'], item['link'])
+        )
+        self.con.commit()
+
+    def close_spider(self):
+        try:
+            self.con.close()
+        except mysql.connector.Error as err:
             spider.log(f'Error closing database connection : {err}')

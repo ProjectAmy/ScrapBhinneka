@@ -12,3 +12,11 @@ class TerlarisItem(scrapy.Item):
     harga = scrapy.Field()
     cicilan = scrapy.Field()
     link = scrapy.Field()
+
+class PerkakasItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    nama = scrapy.Field()
+    harga = scrapy.Field()
+    cicilan = scrapy.Field()
+    link = scrapy.Field()
