@@ -95,8 +95,5 @@ FEED_EXPORT_ENCODING = "utf-8"
 # Setting pipeline spider terlaris
 ITEM_PIPELINES = {
     "bhinneka.pipelines.TerlarisPipeline" : 300,
-}
-
-ITEM_PIPELINES = {
-    "bhinneka.pipelines.PerkakasPipeline" : 300,
+    "bhinneka.pipelines.PerkakasPipeline" : 400,
 }

@@ -6,6 +6,10 @@ class PerkakasSpider(scrapy.Spider):
     allowed_domains = ["bhinneka.com"]
     start_urls = ["https://bhinneka.com/promo/alat-perkakas"]
 
+    custom_settings = {
+        "ITEM_PIPELINES": {"bhinneka.pipelines.PerkakasPipeline": 400},
+    }
+
     def parse(self, response):
 
         # Mengambil semua link di halaman produk
@@ -29,3 +33,4 @@ class PerkakasSpider(scrapy.Spider):
         item['link'] = response.url
 
         yield item  # Menghasilkan list
+

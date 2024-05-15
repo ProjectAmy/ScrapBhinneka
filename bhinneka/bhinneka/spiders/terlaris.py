@@ -6,6 +6,10 @@ class TerlarisSpider(scrapy.Spider):
     allowed_domains = ["bhinneka.com"]
     start_urls = ["https://bhinneka.com/promo/bhinneka-top-sale"]
 
+    custom_settings = {
+        "ITEM_PIPELINES": {"bhinneka.pipelines.TerlarisPipeline": 300},
+    }
+
     def parse(self, response):
 
         # Mengambil semua link di halaman produk
